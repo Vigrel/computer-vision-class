@@ -4,13 +4,25 @@ from sklearn import cluster
 
 
 class DiceDetecion:
+    """this class piriri pororo
+    """
     def __init__(self):
+        """this function piriri pororo
+        """
         self.params = cv2.SimpleBlobDetector_Params()
         self.params.filterByInertia
         self.params.minInertiaRatio = 0.6
         self.detector = cv2.SimpleBlobDetector_create(self.params)
 
     def get_blobs(self, frame):
+        """this function glaubers
+
+        Args:
+            frame (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         frame_blurred = cv2.medianBlur(frame, 7)
         frame_gray = cv2.cvtColor(frame_blurred, cv2.COLOR_BGR2GRAY)
         blobs = self.detector.detect(frame_gray)
@@ -18,6 +30,7 @@ class DiceDetecion:
         return blobs
 
     def get_dice_from_blobs(self, blobs):
+        
         X = []
         for b in blobs:
             pos = b.pt
