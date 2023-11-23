@@ -1,8 +1,14 @@
 from DiceDetection import DiceDetecion
+from fastapi import FastAPI
+import uvicorn
 import cv2
 
+app = FastAPI()
 
-def main():
+@app.get("/dice-detection")
+@app.route('/')
+
+def main(*args):
     captured = cv2.VideoCapture(0)
     dice_detector = DiceDetecion()
 
@@ -20,6 +26,5 @@ def main():
         if res & 0xFF == ord("q"):
             break
 
-
 if __name__ == "__main__":
-    main()
+    uvicorn.run(app, host="127.0.0.1", port=8000)
