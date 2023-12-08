@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 from sklearn import cluster
 
+global sum_list
+
 class DiceDetecion:
     """this class piriri pororo
     """
@@ -38,15 +40,39 @@ class DiceDetecion:
             clustering = cluster.DBSCAN(eps=50, min_samples=1).fit(X)
             num_dice = max(clustering.labels_) + 1
             dice = []
-
+            
             for i in range(num_dice):
                 X_dice = X[clustering.labels_ == i]
                 centroid_dice = np.mean(X_dice, axis=0)
                 dice.append([len(X_dice), *centroid_dice])
 
-            return dice
+            return dice, num_dice
         else:
-            return []
+            return [], 0
+        
+    async def stop_detection(self, num_dice, sum_list, already_printed, frame):
+        sum_list.append(num_dice)
+
+        sum_threshold = 60
+        are_all_same = False
+
+        if len(sum_list) > sum_threshold:
+            sum_list.pop(0) 
+            are_all_same = all(s == sum_list[0] for s in sum_list)
+
+        if are_all_same:
+            if not already_printed:
+                print(sum_list)
+                print("The dice has stopped. Its final value is: " + str(num_dice))
+                already_printed = True
+            text = "Dice sum: "+ str(num_dice)
+            self.show_on_image(frame, num_dice, text)
+            return sum_list, already_printed
+        else:
+            already_printed  = False
+            text = "Loading..."
+            self.show_on_image(frame, num_dice, text)
+            return sum_list, already_printed
 
     async def overlay_info(self, frame, dice, blobs):
         for b in blobs:
@@ -65,3 +91,14 @@ class DiceDetecion:
                 (0, 255, 0),
                 2,
             )
+
+    def show_on_image(self, frame, num_dice, text):
+        cv2.putText(
+            frame,
+            text,
+            (40, 50),
+            cv2.FONT_HERSHEY_PLAIN,
+            4,
+            (0, 255, 0),
+            4,
+        )

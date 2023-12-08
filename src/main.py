@@ -5,6 +5,7 @@ from fastapi import FastAPI
 import uvicorn
 from sklearn.cluster import DBSCAN
 import asyncio
+import time
 
 app = FastAPI()
 
@@ -15,6 +16,10 @@ async def main(*args):
     captured = cv2.VideoCapture(0)
     dice_detector = DiceDetecion()
 
+    sum_list = []
+
+    already_printed = False
+
     while True:
         ret, frame = captured.read()
 
@@ -23,10 +28,9 @@ async def main(*args):
             break
 
         blobs = await dice_detector.get_blobs(frame)
-        dice = await dice_detector.get_dice_from_blobs(blobs)
+        dice, sum = await dice_detector.get_dice_from_blobs(blobs)
+        sum_list, already_printed = await dice_detector.stop_detection(sum, sum_list, already_printed, frame) 
         await dice_detector.overlay_info(frame, dice, blobs)
-
-        print(dice)
 
         cv2.imshow("frame", frame)
 
