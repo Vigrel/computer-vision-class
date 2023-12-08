@@ -4,5 +4,7 @@ src
 .. toctree::
    :maxdepth: 4
 
-   DiceDetection
-   main
+   calibration
+   configs
+   dice_detection
+   dice_detection_demo
