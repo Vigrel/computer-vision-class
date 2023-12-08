@@ -1,16 +1,10 @@
 from DiceDetection import DiceDetecion
 import cv2
 import numpy as np
-from fastapi import FastAPI
 import uvicorn
-from sklearn.cluster import DBSCAN
 import asyncio
 import time
 
-app = FastAPI()
-
-@app.get("/dice-detection")
-@app.route('/')
 
 async def main(*args):
     captured = cv2.VideoCapture(0)
@@ -29,7 +23,9 @@ async def main(*args):
 
         blobs = await dice_detector.get_blobs(frame)
         dice, sum = await dice_detector.get_dice_from_blobs(blobs)
-        sum_list, already_printed = await dice_detector.stop_detection(sum, sum_list, already_printed, frame) 
+        sum_list, already_printed = await dice_detector.stop_detection(
+            sum, sum_list, already_printed, frame
+        )
         await dice_detector.overlay_info(frame, dice, blobs)
 
         cv2.imshow("frame", frame)
@@ -39,8 +35,8 @@ async def main(*args):
         if res & 0xFF == ord("q"):
             break
 
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
     loop.close()
