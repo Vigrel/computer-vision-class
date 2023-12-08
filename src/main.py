@@ -5,7 +5,6 @@ import uvicorn
 import asyncio
 import time
 
-
 async def main(*args):
     captured = cv2.VideoCapture(0)
     dice_detector = DiceDetecion()
@@ -34,7 +33,6 @@ async def main(*args):
 
         if res & 0xFF == ord("q"):
             break
-
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()

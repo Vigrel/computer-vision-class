@@ -9,12 +9,9 @@ from io import BytesIO
 
 global sum_list
 
-
 class DiceDetecion:
-    """this class piriri pororo"""
 
     def __init__(self):
-        """this function piriri pororo"""
         self.params = cv2.SimpleBlobDetector_Params()
         self.params.filterByInertia
         self.params.minInertiaRatio = MININERTIARATIO
@@ -39,7 +36,6 @@ class DiceDetecion:
         return blobs
 
     async def get_dice_from_blobs(self, blobs):
-        """this function piriri pororo"""
         X = []
         for b in blobs:
             pos = b.pt
@@ -69,6 +65,8 @@ class DiceDetecion:
         sum_list.append(num_dice)
 
         are_all_same = False
+        
+        print(num_dice)
 
         if len(sum_list) > SUM_TRESHOLD:
             sum_list.pop(0)
