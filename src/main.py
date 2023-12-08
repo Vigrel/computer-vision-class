@@ -11,7 +11,7 @@ app = FastAPI()
 @app.get("/dice-detection")
 @app.route('/')
 
-async def main():
+async def main(*args):
     captured = cv2.VideoCapture(0)
     dice_detector = DiceDetecion()
 
@@ -36,7 +36,7 @@ async def main():
             break
 
 if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
     loop.close()
-    uvicorn.run(app, host="127.0.0.1", port=8000)

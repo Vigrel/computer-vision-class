@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 from sklearn import cluster
 
-
 class DiceDetecion:
     """this class piriri pororo
     """
