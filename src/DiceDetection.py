@@ -2,23 +2,36 @@ import cv2
 import numpy as np
 from sklearn import cluster
 from calibration import *
+from configs import CAMERA_DISTANCE
+from gtts import gTTS
+import pygame
+from io import BytesIO
 
 global sum_list
 
+
 class DiceDetecion:
-    """this class piriri pororo
-    """
+    """this class piriri pororo"""
+
     def __init__(self):
-        """this function piriri pororo
-        """
+        """this function piriri pororo"""
         self.params = cv2.SimpleBlobDetector_Params()
         self.params.filterByInertia
         self.params.minInertiaRatio = MININERTIARATIO
         self.detector = cv2.SimpleBlobDetector_create(self.params)
+        # Formula to extract the appropriate EPS value for DBSCAN clustering, which is 70 for 30 cm and 50 for 40 cm
+        self.distance_parameter = 70 - (CAMERA_DISTANCE - 30) * 2
+
+    def calibrate_distance(self, distance):
+        """Function used to calibrate the distance parameter after instantiation
+
+        Args:
+            distance (int): distance between the camera and the white table. Range: 30-40 cm
+        """
+        self.distance_parameter = 70 - (distance - 30) * 2
 
     async def get_blobs(self, frame):
-        """this function glaubers
-        """
+        """this function glaubers"""
         frame_blurred = cv2.medianBlur(frame, MEDIANBLUR)
         frame_gray = cv2.cvtColor(frame_blurred, cv2.COLOR_BGR2GRAY)
         blobs = self.detector.detect(frame_gray)
@@ -26,8 +39,7 @@ class DiceDetecion:
         return blobs
 
     async def get_dice_from_blobs(self, blobs):
-        """this function piriri pororo
-        """
+        """this function piriri pororo"""
         X = []
         for b in blobs:
             pos = b.pt
@@ -38,10 +50,12 @@ class DiceDetecion:
         X = np.asarray(X)
 
         if len(X) > 0:
-            clustering = cluster.DBSCAN(eps=50, min_samples=1).fit(X)
+            clustering = cluster.DBSCAN(eps=self.distance_parameter, min_samples=1).fit(
+                X
+            )
             num_dice = max(clustering.labels_) + 1
             dice = []
-            
+
             for i in range(num_dice):
                 X_dice = X[clustering.labels_ == i]
                 centroid_dice = np.mean(X_dice, axis=0)
@@ -50,26 +64,27 @@ class DiceDetecion:
             return dice, num_dice
         else:
             return [], 0
-        
+
     async def stop_detection(self, num_dice, sum_list, already_printed, frame):
         sum_list.append(num_dice)
 
         are_all_same = False
 
         if len(sum_list) > SUM_TRESHOLD:
-            sum_list.pop(0) 
+            sum_list.pop(0)
             are_all_same = all(s == sum_list[0] for s in sum_list)
 
         if are_all_same:
             if not already_printed:
                 print(sum_list)
                 print("The dice has stopped. Its final value is: " + str(num_dice))
+                await self.announce_result(num_dice)
                 already_printed = True
-            text = "Dice sum: "+ str(num_dice)
+            text = "Dice sum: " + str(num_dice)
             self.show_on_image(frame, text)
             return sum_list, already_printed
         else:
-            already_printed  = False
+            already_printed = False
             text = "Loading..."
             self.show_on_image(frame, text)
             return sum_list, already_printed
@@ -91,6 +106,27 @@ class DiceDetecion:
                 (0, 255, 0),
                 2,
             )
+
+    async def announce_result(self, number):
+        tts = gTTS(text=f"{number} rolled", lang="en", slow=False)
+        # Save the audio to a BytesIO object
+        audio_stream = BytesIO()
+        tts.write_to_fp(audio_stream)
+        audio_stream.seek(0)
+
+        # Initialize Pygame mixer
+        pygame.mixer.init()
+
+        # Load the audio stream
+        pygame.mixer.music.load(audio_stream)
+
+        # Play the audio
+        pygame.mixer.music.play()
+
+        # Wait for the audio to finish playing
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+        return
 
     def show_on_image(self, frame, text):
         cv2.putText(
