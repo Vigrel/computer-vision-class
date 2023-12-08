@@ -13,13 +13,13 @@ class DiceDetecion:
         """
         self.params = cv2.SimpleBlobDetector_Params()
         self.params.filterByInertia
-        self.params.minInertiaRatio = minInertiaRatio
+        self.params.minInertiaRatio = MININERTIARATIO
         self.detector = cv2.SimpleBlobDetector_create(self.params)
 
     async def get_blobs(self, frame):
         """this function glaubers
         """
-        frame_blurred = cv2.medianBlur(frame, medianBlur)
+        frame_blurred = cv2.medianBlur(frame, MEDIANBLUR)
         frame_gray = cv2.cvtColor(frame_blurred, cv2.COLOR_BGR2GRAY)
         blobs = self.detector.detect(frame_gray)
 
@@ -56,7 +56,7 @@ class DiceDetecion:
 
         are_all_same = False
 
-        if len(sum_list) > sum_threshold:
+        if len(sum_list) > SUM_TRESHOLD:
             sum_list.pop(0) 
             are_all_same = all(s == sum_list[0] for s in sum_list)
 

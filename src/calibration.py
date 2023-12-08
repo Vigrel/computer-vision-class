@@ -1,3 +1,3 @@
-minInertiaRatio = 0.6
-medianBlur = 7
-sum_threshold = 60
+MININERTIARATIO = 0.6
+MEDIANBLUR = 7
+SUM_TRESHOLD = 60
