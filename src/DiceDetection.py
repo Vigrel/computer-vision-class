@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from sklearn import cluster
+from calibration import *
 
 global sum_list
 
@@ -12,13 +13,13 @@ class DiceDetecion:
         """
         self.params = cv2.SimpleBlobDetector_Params()
         self.params.filterByInertia
-        self.params.minInertiaRatio = 0.6
+        self.params.minInertiaRatio = minInertiaRatio
         self.detector = cv2.SimpleBlobDetector_create(self.params)
 
     async def get_blobs(self, frame):
         """this function glaubers
         """
-        frame_blurred = cv2.medianBlur(frame, 7)
+        frame_blurred = cv2.medianBlur(frame, medianBlur)
         frame_gray = cv2.cvtColor(frame_blurred, cv2.COLOR_BGR2GRAY)
         blobs = self.detector.detect(frame_gray)
 
@@ -53,7 +54,6 @@ class DiceDetecion:
     async def stop_detection(self, num_dice, sum_list, already_printed, frame):
         sum_list.append(num_dice)
 
-        sum_threshold = 60
         are_all_same = False
 
         if len(sum_list) > sum_threshold:
@@ -66,12 +66,12 @@ class DiceDetecion:
                 print("The dice has stopped. Its final value is: " + str(num_dice))
                 already_printed = True
             text = "Dice sum: "+ str(num_dice)
-            self.show_on_image(frame, num_dice, text)
+            self.show_on_image(frame, text)
             return sum_list, already_printed
         else:
             already_printed  = False
             text = "Loading..."
-            self.show_on_image(frame, num_dice, text)
+            self.show_on_image(frame, text)
             return sum_list, already_printed
 
     async def overlay_info(self, frame, dice, blobs):
@@ -92,7 +92,7 @@ class DiceDetecion:
                 2,
             )
 
-    def show_on_image(self, frame, num_dice, text):
+    def show_on_image(self, frame, text):
         cv2.putText(
             frame,
             text,
