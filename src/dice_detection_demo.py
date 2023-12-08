@@ -1,14 +1,31 @@
-from DiceDetection import DiceDetecion
+"""
+dice_detection_demo.py
+
+This script provides a simple demonstration of using the DiceDetection package for real-time
+dice detection using a webcam.
+
+Usage: Run this script to start the real-time dice detection. Press 'q' to exit the application.
+
+Example:
+    $ python dice_detection_demo.py
+"""
+
+from dice_detection import DiceDetection
 import cv2
-import numpy as np
-import uvicorn
 import asyncio
-import time
 
 
 async def main(*args):
+    """Main function for real-time dice detection using a webcam.
+
+    This function initializes the camera, creates an instance of DiceDetection,
+    and continuously processes frames for dice detection.
+
+    Args:
+        *args: Additional command-line arguments.
+    """
     captured = cv2.VideoCapture(0)
-    dice_detector = DiceDetecion()
+    dice_detector = DiceDetection()
 
     sum_list = []
 

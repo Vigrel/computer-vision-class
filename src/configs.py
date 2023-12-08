@@ -1,2 +1,9 @@
-# Permite ajuste da distancia entre a camera e a mesa de jogo branca. Suporta valores entre 30 e 40 cm.
+"""
+The config module sets parameters for the state of the physical world. 
+Here, you configure the camera's height for the top-down view by
+assigning a value to CAMERA_DISTANCE in centimeters.
+
+It allows distance between 30-40 cm.
+"""
+
 CAMERA_DISTANCE = 40
