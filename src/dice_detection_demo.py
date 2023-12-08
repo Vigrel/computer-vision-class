@@ -14,7 +14,6 @@ from dice_detection import DiceDetection
 import cv2
 import asyncio
 
-
 async def main(*args):
     """Main function for real-time dice detection using a webcam.
 
@@ -51,7 +50,6 @@ async def main(*args):
 
         if res & 0xFF == ord("q"):
             break
-
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
