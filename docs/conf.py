@@ -9,7 +9,7 @@
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath("../src"))
+sys.path.insert(0, os.path.abspath("../cv_dice_detection"))
 
 project = 'dice-detection'
 copyright = '2023, Arthur Chiepper, Luiza Valezim, Vinicius Eller'
