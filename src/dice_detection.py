@@ -63,8 +63,7 @@ import pygame
 from gtts import gTTS
 from sklearn import cluster
 
-from calibration import MEDIANBLUR, MININERTIARATIO, SUM_TRESHOLD
-from configs import CAMERA_DISTANCE
+from calibration import MEDIANBLUR, MININERTIARATIO, SUM_THRESHOLD, CAMERA_DISTANCE
 
 global sum_list
 
@@ -165,7 +164,7 @@ class DiceDetection:
 
         are_all_same = False
 
-        if len(sum_list) > SUM_TRESHOLD:
+        if len(sum_list) > SUM_THRESHOLD:
             sum_list.pop(0)
             are_all_same = all(s == sum_list[0] for s in sum_list)
 
