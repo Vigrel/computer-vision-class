@@ -62,6 +62,7 @@ import numpy as np
 import pygame
 from gtts import gTTS
 from sklearn import cluster
+import asyncio
 
 from calibration import MEDIANBLUR, MININERTIARATIO, SUM_THRESHOLD, CAMERA_DISTANCE
 
@@ -178,7 +179,7 @@ class DiceDetection:
             if not already_printed:
                 print(sum_list)
                 print("The dice has stopped. Its final value is: " + str(sum))
-                # await self.announce_result(sum)
+                await self.announce_result(sum)
                 print("Finished accounce result")
                 already_printed = True
             text = "Dice sum: " + str(sum)
@@ -236,8 +237,8 @@ class DiceDetection:
         pygame.mixer.music.play()
 
         # Wait for the audio to finish playing
-        while pygame.mixer.music.get_busy():
-            pygame.time.Clock().tick(10)
+        # while pygame.mixer.music.get_busy():
+        #     pygame.time.Clock().tick(10)
         return
 
     def show_on_image(self, frame: np.ndarray, text: str):

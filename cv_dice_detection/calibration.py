@@ -29,7 +29,7 @@ MEDIANBLUR: The size of the median filter kernel. Must be an odd integer.
     this value should be increased to reduce noise. 
 """
 
-SUM_THRESHOLD = 60
+SUM_THRESHOLD = 20
 """
 SUM_THRESHOLD: The threshold for the length of the sum list. Essentially, this parameter is used to
     determine how many frames of a constant sum are required to stop the detection and assert that the sum is final.
