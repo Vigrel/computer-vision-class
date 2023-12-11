@@ -137,17 +137,23 @@ class DiceDetection:
             )
             num_dice = max(clustering.labels_) + 1
             dice = []
-
+            sum = 0
             for i in range(num_dice):
                 x_dice = pos_list[clustering.labels_ == i]
+                sum += len(x_dice)
                 centroid_dice = np.mean(x_dice, axis=0)
                 dice.append([len(x_dice), *centroid_dice])
 
-            return dice, num_dice
-        return [], 0
+            return dice, num_dice, sum
+        return [], 0, 0
 
     async def stop_detection(
-        self, num_dice: int, sum_list: list, already_printed: bool, frame: np.ndarray
+        self,
+        num_dice: int,
+        sum_list: list,
+        already_printed: bool,
+        frame: np.ndarray,
+        sum: int,
     ) -> (list, bool):
         """Stop dice detection when a stable state is reached.
 
@@ -171,10 +177,11 @@ class DiceDetection:
         if are_all_same:
             if not already_printed:
                 print(sum_list)
-                print("The dice has stopped. Its final value is: " + str(num_dice))
-                await self.announce_result(num_dice)
+                print("The dice has stopped. Its final value is: " + str(sum))
+                # await self.announce_result(sum)
+                print("Finished accounce result")
                 already_printed = True
-            text = "Dice sum: " + str(num_dice)
+            text = "Dice sum: " + str(sum)
             self.show_on_image(frame, text)
             return sum_list, already_printed
         already_printed = False
