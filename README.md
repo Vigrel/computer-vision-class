@@ -49,3 +49,6 @@ To ensure dice detection accuracy, set up the environment as follows:
 4. **Camera Calibration (if necessary)**: Calibrate the camera if needed for accurate measurements. Refer to your camera documentation for calibration procedures.
 
 Follow these guidelines to create an environment for effective dice detection, ensuring optimal system performance.
+
+### References:
+* Golsteyn, Quentin - https://golsteyn.com/writing/dice
