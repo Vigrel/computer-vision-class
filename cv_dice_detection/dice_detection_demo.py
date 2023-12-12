@@ -15,7 +15,7 @@ import cv2
 import asyncio
 
 
-async def main(*args):
+def main(*args):
     """Main function for real-time dice detection using a webcam.
 
     This function initializes the camera, creates an instance of DiceDetection,
@@ -38,12 +38,12 @@ async def main(*args):
             print("Error reading frame from the camera")
             break
 
-        blobs = await dice_detector.get_blobs(frame)
-        dice, num_dice, sum = await dice_detector.get_dice_from_blobs(blobs)
-        sum_list, already_printed = await dice_detector.stop_detection(
-            num_dice, sum_list, already_printed, frame, sum
+        blobs = dice_detector.get_blobs(frame)
+        dice, num_dice, sum = dice_detector.get_dice_from_blobs(blobs)
+        dice_detector.stop_detection(
+            num_dice, already_printed, frame, sum
         )
-        await dice_detector.overlay_info(frame, dice, blobs)
+        dice_detector.overlay_info(frame, dice, blobs)
 
         cv2.imshow("frame", frame)
 
@@ -54,6 +54,7 @@ async def main(*args):
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
-    loop.close()
+    # loop = asyncio.get_event_loop()
+    # loop.run_until_complete(main())
+    # loop.close()
+    main()

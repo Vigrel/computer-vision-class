@@ -32,23 +32,23 @@ Example:
     * Get blobs from a frame
     
     frame = cv2.imread("dice_image.jpg")
-    blobs = await dice_detector.get_blobs(frame)
+    blobs = dice_detector.get_blobs(frame)
 
     * Get dice information from blobs
     
-    dice_info, num_dice = await dice_detector.get_dice_from_blobs(blobs)
+    dice_info, num_dice = dice_detector.get_dice_from_blobs(blobs)
 
     * Overlay information on the frame
     
-    await dice_detector.overlay_info(frame, dice_info, blobs)
+    dice_detector.overlay_info(frame, dice_info, blobs)
 
     * Stop detection when stable state is reached
     
-    sum_list, already_printed = await dice_detector.stop_detection(num_dice, sum_list, already_printed, frame)
+    self.sum_list, already_printed = dice_detector.stop_detection(num_dice, self.sum_list, already_printed, frame)
 
     * Announce the result using text-to-speech
     
-    await dice_detector.announce_result(num_dice)
+    dice_detector.announce_result(num_dice)
 
     * Display text on the frame
     
@@ -66,8 +66,6 @@ import asyncio
 
 from calibration import MEDIANBLUR, MININERTIARATIO, SUM_THRESHOLD, CAMERA_DISTANCE
 
-global sum_list
-
 
 class DiceDetection:
     """DiceDetection is a Python package for detecting and
@@ -84,6 +82,7 @@ class DiceDetection:
         The constructor sets up parameters for blob detection and
             initializes the distance_parameter.
         """
+        self.sum_list = []
         self.params = cv2.SimpleBlobDetector_Params()
         self.params.filterByInertia
         self.params.minInertiaRatio = MININERTIARATIO
@@ -99,7 +98,7 @@ class DiceDetection:
         """
         self.distance_parameter = 70 - (distance - 30) * 2
 
-    async def get_blobs(self, frame: np.ndarray) -> list:
+    def get_blobs(self, frame: np.ndarray) -> list:
         """Detect blobs in the input frame.
 
         Args:
@@ -114,7 +113,7 @@ class DiceDetection:
 
         return blobs
 
-    async def get_dice_from_blobs(self, blobs: list) -> (list, int):
+    def get_dice_from_blobs(self, blobs: list) -> (list, int):
         """Extract dice information from detected blobs.
 
         Args:
@@ -148,10 +147,9 @@ class DiceDetection:
             return dice, num_dice, sum
         return [], 0, 0
 
-    async def stop_detection(
+    def stop_detection(
         self,
         num_dice: int,
-        sum_list: list,
         already_printed: bool,
         frame: np.ndarray,
         sum: int,
@@ -160,37 +158,37 @@ class DiceDetection:
 
         Args:
             num_dice (int): Number of dice detected.
-            sum_list (list): List to track the sum of dice over time.
+            self.sum_list (list): List to track the sum of dice over time.
             already_printed (bool): Flag to avoid redundant printing.
             frame (numpy.ndarray): Input image frame.
 
         Returns:
-            tuple: A tuple containing the updated sum_list and already_printed flags.
+            tuple: A tuple containing the updated self.sum_list and already_printed flags.
         """
-        sum_list.append(num_dice)
+        self.sum_list.append(num_dice)
 
         are_all_same = False
 
-        if len(sum_list) > SUM_THRESHOLD:
-            sum_list.pop(0)
-            are_all_same = all(s == sum_list[0] for s in sum_list)
+        if len(self.sum_list) > SUM_THRESHOLD:
+            self.sum_list.pop(0)
+            are_all_same = all(s == self.sum_list[0] for s in self.sum_list)
 
         if are_all_same:
             if not already_printed:
-                print(sum_list)
+                print(self.sum_list)
                 print("The dice has stopped. Its final value is: " + str(sum))
-                await self.announce_result(sum)
+                self.announce_result(sum)
                 print("Finished accounce result")
                 already_printed = True
             text = "Dice sum: " + str(sum)
             self.show_on_image(frame, text)
-            return sum_list, already_printed
+            return self.sum_list, already_printed
         already_printed = False
         text = "Loading..."
         self.show_on_image(frame, text)
-        return sum_list, already_printed
+        return self.sum_list, already_printed
 
-    async def overlay_info(self, frame: np.ndarray, dice: list, blobs: list):
+    def overlay_info(self, frame: np.ndarray, dice: list, blobs: list):
         """Overlay information on the input frame.
 
         Args:
@@ -215,7 +213,7 @@ class DiceDetection:
                 2,
             )
 
-    async def announce_result(self, number: int) -> None:
+    def announce_result(self, number: int) -> None:
         """Announce the result using text-to-speech.
 
         Args:
