@@ -9,9 +9,16 @@ Developed by:
 
 An API developed with the goal to use Computer Vision and Machine Learning in order to identify and sum the values of the total dices.
 
+There are two installation methods:
+
+## Using pip
+```sh
+ pip install cv-dice-detection
+```
+
 ## Using the repository 
 
-1. Clone the repo
+1. Clone the repo 
    ```sh
     git clone https://github.com/Vigrel/dice-detection.git
    ```
