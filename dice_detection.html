@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dice_detection module &mdash; dice-detection 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            dice-detection
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">dice_detection module</a><ul>
+<li><a class="reference internal" href="#dice_detection.DiceDetection"><code class="docutils literal notranslate"><span class="pre">DiceDetection</span></code></a><ul>
+<li><a class="reference internal" href="#dice_detection.DiceDetection.announce_result"><code class="docutils literal notranslate"><span class="pre">DiceDetection.announce_result()</span></code></a></li>
+<li><a class="reference internal" href="#dice_detection.DiceDetection.calibrate_distance"><code class="docutils literal notranslate"><span class="pre">DiceDetection.calibrate_distance()</span></code></a></li>
+<li><a class="reference internal" href="#dice_detection.DiceDetection.get_blobs"><code class="docutils literal notranslate"><span class="pre">DiceDetection.get_blobs()</span></code></a></li>
+<li><a class="reference internal" href="#dice_detection.DiceDetection.get_dice_from_blobs"><code class="docutils literal notranslate"><span class="pre">DiceDetection.get_dice_from_blobs()</span></code></a></li>
+<li><a class="reference internal" href="#dice_detection.DiceDetection.overlay_info"><code class="docutils literal notranslate"><span class="pre">DiceDetection.overlay_info()</span></code></a></li>
+<li><a class="reference internal" href="#dice_detection.DiceDetection.show_on_image"><code class="docutils literal notranslate"><span class="pre">DiceDetection.show_on_image()</span></code></a></li>
+<li><a class="reference internal" href="#dice_detection.DiceDetection.stop_detection"><code class="docutils literal notranslate"><span class="pre">DiceDetection.stop_detection()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dice-detection</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">dice_detection module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dice_detection.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dice_detection">
+<span id="dice-detection-module"></span><h1>dice_detection module<a class="headerlink" href="#module-dice_detection" title="Link to this heading"></a></h1>
+<p>dice_detection.py</p>
+<p>DiceDetection is a Python package for detecting and analyzing dice in images or video streams.</p>
+<p>This module provides a DiceDetection class that encapsulates functionalities for dice detection,
+including blob detection, clustering, and result announcement using text-to-speech.</p>
+<dl>
+<dt>Dependencies:</dt><dd><ul class="simple">
+<li><p>OpenCV (cv2)</p></li>
+<li><p>NumPy (numpy)</p></li>
+<li><p>scikit-learn (sklearn)</p></li>
+<li><p>Calibration (calibration)</p></li>
+<li><p>Configuration Settings (configs)</p></li>
+<li><p>Google Text-to-Speech (gtts)</p></li>
+<li><p>Pygame (pygame)</p></li>
+</ul>
+</dd>
+<dt>Usage:</dt><dd><p>To use this package, create an instance of the DiceDetection class, calibrate the distance
+parameter using <cite>calibrate_distance</cite>, and then use the various methods provided for blob
+detection, result extraction, and display.</p>
+</dd>
+<dt>Example:</dt><dd><ul class="simple">
+<li><p>Create an instance of DiceDetection</p></li>
+</ul>
+<p>dice_detector = DiceDetection()</p>
+<ul class="simple">
+<li><p>Calibrate the distance parameter</p></li>
+</ul>
+<p>dice_detector.calibrate_distance(35)</p>
+<ul class="simple">
+<li><p>Get blobs from a frame</p></li>
+</ul>
+<p>frame = cv2.imread(“dice_image.jpg”)
+blobs = await dice_detector.get_blobs(frame)</p>
+<ul class="simple">
+<li><p>Get dice information from blobs</p></li>
+</ul>
+<p>dice_info, num_dice = await dice_detector.get_dice_from_blobs(blobs)</p>
+<ul class="simple">
+<li><p>Overlay information on the frame</p></li>
+</ul>
+<p>await dice_detector.overlay_info(frame, dice_info, blobs)</p>
+<ul class="simple">
+<li><p>Stop detection when stable state is reached</p></li>
+</ul>
+<p>sum_list, already_printed = await dice_detector.stop_detection(num_dice, sum_list, already_printed, frame)</p>
+<ul class="simple">
+<li><p>Announce the result using text-to-speech</p></li>
+</ul>
+<p>await dice_detector.announce_result(num_dice)</p>
+<ul class="simple">
+<li><p>Display text on the frame</p></li>
+</ul>
+<p>dice_detector.show_on_image(frame, “Dice detection in progress…”)</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="dice_detection.DiceDetection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dice_detection.</span></span><span class="sig-name descname"><span class="pre">DiceDetection</span></span><a class="headerlink" href="#dice_detection.DiceDetection" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="simple">
+<dt>DiceDetection is a Python package for detecting and</dt><dd><p>analyzing dice in images or video streams.</p>
+</dd>
+<dt>Attributes:</dt><dd><p>detector: Instance of cv2.SimpleBlobDetector for blob detection.
+distance_parameter (float): Parameter used for DBSCAN clustering, calibrated based on camera distance.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="dice_detection.DiceDetection.announce_result">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">announce_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dice_detection.DiceDetection.announce_result" title="Link to this definition"></a></dt>
+<dd><p>Announce the result using text-to-speech.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>number (int): Result to be announced.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dice_detection.DiceDetection.calibrate_distance">
+<span class="sig-name descname"><span class="pre">calibrate_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dice_detection.DiceDetection.calibrate_distance" title="Link to this definition"></a></dt>
+<dd><p>Calibrate the distance parameter after instantiation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>distance (float): Distance between the camera and the white table. Range: 30-40 cm.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dice_detection.DiceDetection.get_blobs">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#dice_detection.DiceDetection.get_blobs" title="Link to this definition"></a></dt>
+<dd><p>Detect blobs in the input frame.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>frame (numpy.ndarray): Input image frame.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: List of detected blobs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dice_detection.DiceDetection.get_dice_from_blobs">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_dice_from_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blobs:</span> <span class="pre">list)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'list'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'int'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dice_detection.DiceDetection.get_dice_from_blobs" title="Link to this definition"></a></dt>
+<dd><p>Extract dice information from detected blobs.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>blobs (list): List of detected blobs.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing a list of dice information and the number of dice.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dice_detection.DiceDetection.overlay_info">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overlay_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dice_detection.DiceDetection.overlay_info" title="Link to this definition"></a></dt>
+<dd><p>Overlay information on the input frame.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>frame (numpy.ndarray): Input image frame.
+dice (list): List of dice information.
+blobs (list): List of detected blobs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dice_detection.DiceDetection.show_on_image">
+<span class="sig-name descname"><span class="pre">show_on_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dice_detection.DiceDetection.show_on_image" title="Link to this definition"></a></dt>
+<dd><p>Display text on the input frame.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>frame (numpy.ndarray): Input image frame.
+text (str): Text to be displayed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dice_detection.DiceDetection.stop_detection">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stop_detection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_dice:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sum_list:</span> <span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">already_printed:</span> <span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sum:</span> <span class="pre">int)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'list'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'bool'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dice_detection.DiceDetection.stop_detection" title="Link to this definition"></a></dt>
+<dd><p>Stop dice detection when a stable state is reached.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>num_dice (int): Number of dice detected.
+sum_list (list): List to track the sum of dice over time.
+already_printed (bool): Flag to avoid redundant printing.
+frame (numpy.ndarray): Input image frame.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing the updated sum_list and already_printed flags.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Arthur Chiepper, Luiza Valezim, Vinicius Eller.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
