@@ -9,6 +9,8 @@ Developed by:
 
 An API developed with the goal to use Computer Vision and Machine Learning in order to identify and sum the values of the total dices.
 
+Project demo: https://youtu.be/54zDDRuU2X8
+
 There are two installation methods:
 
 ## Using pip
