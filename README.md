@@ -15,6 +15,7 @@ There are two installation methods:
 ```sh
  pip install cv-dice-detection
 ```
+PyPi reference: https://pypi.org/project/cv-dice-detection/
 
 ## Using the repository 
 
